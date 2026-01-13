@@ -99,14 +99,14 @@ public class ViewerInterface {
     }
 
     private void reserveTicket() {
-        System.out.print("Enter anuarproject.oop1.Film name to reserve: ");
+        System.out.print("Enter Film name to reserve: ");
         String title = scanner.nextLine();
 
         Film film = cinema.getFilmByTitle(title);
         if (film != null) {
             cinema.reserve(viewer, film);
         } else {
-            System.out.println("anuarproject.oop1.Film not found!");
+            System.out.println("Film not found!");
         }
     }
 }
