@@ -19,10 +19,10 @@ public class Admin extends User{
     public void showMenu() {
         while (true) {
             System.out.println("\n========== ADMIN MENU ==========");
-            System.out.println("1. Add anuarproject.oop1.Film");
+            System.out.println("1. Add Film");
             System.out.println("2. Show all Films");
-            System.out.println("3. Change anuarproject.oop1.Film Price");
-            System.out.println("4. Sort anuarproject.oop1.Film by Price");
+            System.out.println("3. Change Film Price");
+            System.out.println("4. Sort Film by Price");
             System.out.println("5. Filtr by price");
             System.out.println("6. Filtr by genre");
             System.out.println("0. Exit to main menu");
@@ -67,19 +67,19 @@ public class Admin extends User{
         double price = scanner.nextDouble();
         scanner.nextLine();
 
-        System.out.println("Choose anuarproject.oop1.Genre:");
+        System.out.println("Choose Genre:");
         Genre[] genres = Genre.values();
         for (int i = 0; i < genres.length; i++) {
             System.out.println((i + 1) + ". " + genres[i]);
         }
-        System.out.print("anuarproject.oop1.Genre name: ");
+        System.out.print("Genre name: ");
         int genreChoice = scanner.nextInt() - 1;
         scanner.nextLine();
 
         if (genreChoice >= 0 && genreChoice < genres.length) {
             Film film = new Film(title, price, genres[genreChoice]);
             cinema.addMovie(film);
-            System.out.println("anuarproject.oop1.Film added successfully!");
+            System.out.println("Film added successfully!");
         } else {
             System.out.println("Wrong number of genres!");
         }
@@ -97,19 +97,19 @@ public class Admin extends User{
     }
 
     private void filterByPrice() {
-        System.out.print("Enter max anuarproject.oop1.Film: ");
+        System.out.print("Enter max Film: ");
         double maxPrice = scanner.nextDouble();
         scanner.nextLine();
         cinema.showCheapFilms(maxPrice);
     }
 
     private void filterByGenre() {
-        System.out.println("Choose anuarproject.oop1.Genre to sort by:");
+        System.out.println("Choose Genre to sort by:");
         Genre[] genres = Genre.values();
         for (int i = 0; i < genres.length; i++) {
             System.out.println((i + 1) + ". " + genres[i]);
         }
-        System.out.print("anuarproject.oop1.Genre number: ");
+        System.out.print("Genre number: ");
         int genreChoice = scanner.nextInt() - 1;
         scanner.nextLine();
 

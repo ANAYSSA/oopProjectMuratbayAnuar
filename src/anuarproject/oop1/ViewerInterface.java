@@ -13,7 +13,7 @@ public class ViewerInterface {
     }
 
     public void showMenu() {
-        System.out.println("Enter Username:");
+        System.out.println("\nEnter Username:");
         String username = scanner.nextLine();
 
         System.out.println("Enter Password:");
@@ -69,7 +69,7 @@ public class ViewerInterface {
     }
 
     private void searchFilm() {
-        System.out.print("Enter anuarproject.oop1.Film name: ");
+        System.out.print("Enter Film name: ");
         String title = scanner.nextLine();
         cinema.findFilm(title);
     }
