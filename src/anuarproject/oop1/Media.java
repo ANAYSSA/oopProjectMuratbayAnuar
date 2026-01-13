@@ -1,4 +1,4 @@
-package anuarproject;
+package anuarproject.oop1;
 
 import java.util.Objects;
 public abstract class Media {

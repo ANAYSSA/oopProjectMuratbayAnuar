@@ -17,7 +17,7 @@ public class Main {
         cinema.addMovie(new Film("IT", 2200, Genre.HORROR));
 
 
-        Admin admin = new Admin(cinema, scanner);
+        Admin admin = new Admin(1, "admin", "1234", cinema, scanner);
         ViewerInterface viewerInterface = new ViewerInterface(cinema, scanner);
 
         System.out.println("════════════════════════════════════════");

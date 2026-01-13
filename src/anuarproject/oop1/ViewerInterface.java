@@ -30,11 +30,11 @@ public class ViewerInterface {
         System.out.println("Welcome, " + name + "!");
 
         while (true) {
-            System.out.println("\n========== anuarproject.oop1.Viewer Menu ==========");
+            System.out.println("\n========== Viewer Menu ==========");
             System.out.println("Balance: " + viewer.getBalance() + " тг");
             System.out.println("1. Show all Films");
-            System.out.println("2. Search anuarproject.oop1.Film");
-            System.out.println("3. Filter by anuarproject.oop1.Genre");
+            System.out.println("2. Search Film");
+            System.out.println("3. Filter by Genre");
             System.out.println("4. Filter by Price");
             System.out.println("5. Reserve Ticket");
             System.out.println("0. Exit to main menu");
@@ -75,12 +75,12 @@ public class ViewerInterface {
     }
 
     private void filterByGenre() {
-        System.out.println("Choose a anuarproject.oop1.Genre: :");
+        System.out.println("Choose a Genre: :");
         Genre[] genres = Genre.values();
         for (int i = 0; i < genres.length; i++) {
             System.out.println((i + 1) + ". " + genres[i]);
         }
-        System.out.print("anuarproject.oop1.Genre number: ");
+        System.out.print("Genre number: ");
         int genreChoice = scanner.nextInt() - 1;
         scanner.nextLine();
 

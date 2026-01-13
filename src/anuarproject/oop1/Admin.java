@@ -2,14 +2,19 @@ package anuarproject.oop1;
 
 import java.util.Scanner;
 
-public class Admin {
+public class Admin extends User{
+
     private Cinema cinema;
     private Scanner scanner;
 
-    public Admin(Cinema cinema, Scanner scanner) {
+    public Admin(int id, String username, String password, Cinema cinema, Scanner scanner) {
+        super(id, username, password);
         this.cinema = cinema;
         this.scanner = scanner;
     }
+
+
+
 
     public void showMenu() {
         while (true) {
