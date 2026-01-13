@@ -23,7 +23,7 @@ public class Cinema {
                 return;
             }
         }
-        System.out.println("anuarproject.oop1.Film not found");
+        System.out.println("Film not found");
     }
 
     public void sortByPrice() {
@@ -71,15 +71,15 @@ public class Cinema {
         Film film = getFilmByTitle(title);
         if (film != null) {
             film.setPrice(newPrice);
-            System.out.println("anuarproject.oop1.Film price '" + title + "' changed to " + newPrice + " тг");
+            System.out.println("Film price '" + title + "' changed to " + newPrice + " тг");
         } else {
-            System.out.println("anuarproject.oop1.Film not found!");
+            System.out.println("Film not found!");
         }
     }
 
 
     public void showFilmsByGenre(Genre genre) {
-        System.out.println("\nanuarproject.oop1.Film in anuarproject.oop1.Genre " + genre + ":");
+        System.out.println("\nFilm in Genre " + genre + ":");
         boolean found = false;
         for (Film f : films) {
             if (f.getGenre() == genre) {
@@ -88,7 +88,7 @@ public class Cinema {
             }
         }
         if (!found) {
-            System.out.println("No anuarproject.oop1.Film with this anuarproject.oop1.Genre");
+            System.out.println("No Film with this Genre");
         }
     }
 }

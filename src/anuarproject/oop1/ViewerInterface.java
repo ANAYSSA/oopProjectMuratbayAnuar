@@ -7,27 +7,13 @@ public class ViewerInterface {
     private Viewer viewer;
     private Scanner scanner;
 
-    public ViewerInterface(Cinema cinema, Scanner scanner) {
+    public ViewerInterface(Cinema cinema, Scanner scanner, Viewer viewer) {
         this.cinema = cinema;
         this.scanner = scanner;
+        this.viewer = viewer;
     }
 
     public void showMenu() {
-        System.out.println("\nEnter Username:");
-        String username = scanner.nextLine();
-
-        System.out.println("Enter Password:");
-        String password = scanner.nextLine();
-
-        System.out.print("\nEnter your name: ");
-        String name = scanner.nextLine();
-
-        System.out.print("Enter your Balance: ");
-        double balance = scanner.nextDouble();
-        scanner.nextLine();
-
-        Viewer viewer = new Viewer(1 , username, password,name, balance);
-        System.out.println("Welcome, " + name + "!");
 
         while (true) {
             System.out.println("\n========== Viewer Menu ==========");

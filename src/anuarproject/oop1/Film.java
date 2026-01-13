@@ -39,11 +39,11 @@ public class Film extends Media {
 
     @Override
     public void showDetail() {
-        System.out.println("Kino: " + title + " | anuarproject.oop1.Genre: " + genre + " | Price: " + price);
+        System.out.println("Kino: " + title + " | Genre: " + genre + " | Price: " + price);
     }
 
     @Override
     public String toString() {
-        return "anuarproject.oop1.Film: '" + title + "' [" + genre + "], Price: " + price;
+        return "Film: '" + title + "' [" + genre + "], Price: " + price;
     }
 }

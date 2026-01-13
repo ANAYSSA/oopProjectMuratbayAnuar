@@ -19,6 +19,6 @@ public class Viewer extends User{
     }
     @Override
     public String toString() {
-        return "anuarproject.oop1.Viewer: " + name + ", Balance: " + balance;
+        return "Viewer: " + name + ", Balance: " + balance;
     }
 }
