@@ -83,21 +83,21 @@ public class DBManager {
                           e.printStackTrace();
                       }
                   }
-    // Метод для регистрации нового зрителя
+
     public void registerViewer(String username, String password, String fullName, double balance) throws SQLException, ClassNotFoundException {
-        // ? — это плейсхолдеры, чтобы избежать взлома базы (SQL Injection)
+
         String sql = "INSERT INTO users (username, password, role, full_name, balance) VALUES (?, ?, 'VIEWER', ?, ?)";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            // Привязываем значения к вопросам по порядку
+
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setString(3, fullName);
             pstmt.setDouble(4, balance);
 
-            // executeUpdate используется для команд, которые меняют данные (INSERT, UPDATE, DELETE)
+
             pstmt.executeUpdate();
             System.out.println("User registered successfully!");
 
@@ -106,7 +106,7 @@ public class DBManager {
         }
     }
 
-    // Метод для проверки входа (авторизация)
+
     public User login(String username, String password) throws SQLException, ClassNotFoundException {
         if (username.equals("admin") && password.equals("admin")) {
             return new Admin(0, "admin", "admin", null, null);
