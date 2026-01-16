@@ -10,10 +10,14 @@ public static void main(String[] args)throws SQLException, ClassNotFoundExceptio
     db.getAllFilms().forEach(cinema::addMovie);
 
     while (true) {
-        System.out.println("\n--- WELCOME TO CINEMA SYSTEM ---");
+        System.out.println("\n--- WELCOME TO ANUAR CINEMA ---");
+
         System.out.println("1. Login");
+
         System.out.println("2. Register");
+
         System.out.println("0. Exit");
+
         System.out.print("Choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
