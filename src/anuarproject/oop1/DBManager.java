@@ -1,6 +1,13 @@
 package anuarproject.oop1;
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+
 import java.util.ArrayList;
+
 import java.util.List;
 public class DBManager {
     private final String url = "jdbc:postgresql://localhost:5432/CinemaSystemDB";

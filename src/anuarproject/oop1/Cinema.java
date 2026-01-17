@@ -3,13 +3,18 @@ package anuarproject.oop1;
 import java.util.*;
 
 public class Cinema {
+    DBManager db = new DBManager();
     private String name;
     private int seats;
-    private List<Film> films = new ArrayList<>();
+    private List<Film> films;
+    private void loadFilms() {
+    try{films = db.getAllFilms();}
+    catch(Exception e){System.out.println(e.getMessage());films = new ArrayList<>();}}
 
     public Cinema(String name, int seats) {
         this.name = name;
         this.seats = seats;
+        loadFilms();
     }
 
     public void addMovie(Film film) {
