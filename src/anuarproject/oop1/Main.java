@@ -40,15 +40,15 @@ public static void main(String[] args)throws SQLException, ClassNotFoundExceptio
             }
         } else if (choice == 2) {
             System.out.print("New Username: ");
-            String u = scanner.nextLine();
+            String user = scanner.nextLine();
             System.out.print("New Password: ");
-            String p = scanner.nextLine();
+            String pass = scanner.nextLine();
             System.out.print("Full Name: ");
-            String fn = scanner.nextLine();
+            String fullName = scanner.nextLine();
             System.out.print("Start Balance: ");
-            double b = scanner.nextDouble();
+            double balance = scanner.nextDouble();
 
-            db.registerViewer(u, p, fn, b);
+            db.registerViewer(user, pass, fullName, balance);
         } else if (choice == 0) break;
     }
 }}
