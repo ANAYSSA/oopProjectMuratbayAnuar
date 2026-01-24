@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Main {
 public static void main(String[] args)throws SQLException, ClassNotFoundException {
     Scanner scanner = new Scanner(System.in);
-    DBManager db = new DBManager();
+    DBManager db = DBManager.getInstance();
     Cinema cinema = new Cinema("Anuar Cinema", 50);
 
     db.getAllFilms().forEach(cinema::addMovie);

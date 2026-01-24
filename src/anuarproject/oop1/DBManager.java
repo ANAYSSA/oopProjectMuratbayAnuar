@@ -10,9 +10,15 @@ import java.util.ArrayList;
 
 import java.util.List;
 public class DBManager {
+    private static DBManager instance;
     private final String url = "jdbc:postgresql://localhost:5432/CinemaSystemDB";
     private final String user = "postgres";
     private final String password = "0000";
+    private DBManager() {}
+
+    public static DBManager getInstance() {
+        if (instance == null) {instance = new DBManager();}return instance;
+    }
 
     public Connection connect() throws SQLException, ClassNotFoundException {
     return DriverManager.getConnection(url, user, password);

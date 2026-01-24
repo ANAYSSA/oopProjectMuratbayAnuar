@@ -8,7 +8,7 @@ public class Admin extends User{
 
     private Cinema cinema;
     private Scanner scanner;
-    DBManager db =  new DBManager();
+    DBManager db = DBManager.getInstance();
     public Admin(int id, String username, String password, Cinema cinema, Scanner scanner) {
         super(id, username, password);
         this.cinema = cinema;

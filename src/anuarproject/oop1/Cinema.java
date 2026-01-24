@@ -3,7 +3,7 @@ package anuarproject.oop1;
 import java.util.*;
 
 public class Cinema {
-    DBManager db = new DBManager();
+    DBManager db = DBManager.getInstance();
     private String name;
     private int seats;
     private List<Film> films;
