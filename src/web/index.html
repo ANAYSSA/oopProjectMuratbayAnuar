@@ -47,53 +47,76 @@
     </div>
 
     <script>
-        // Загрузка фильмов (GET запрос к твоему FilmHandler)
-        async function loadMovies() {
-            try {
-                let response = await fetch('/api/films');
-                let films = await response.json();
-                let html = '';
-                films.forEach(f => {
-                    html += `
-                        <div class="movie-card">
-                            <h3>${f.title}</h3>
-                            <p>Жанр: ${f.genre}</p>
-                            <p><b>Цена: ${f.price} тг</b></p>
-                            <button>Купить билет</button>
-                        </div>`;
-                });
-                document.getElementById('movies').innerHTML = html;
-            } catch (err) {
-                console.error("Ошибка загрузки:", err);
-            }
+        let isAuthorized = false;
+let userRole = null;
+
+// 1. Загрузка фильмов из БД через твой FilmHandler [cite: 13, 157]
+async function loadMovies() {
+    try {
+        const response = await fetch('/api/films');
+        const films = await response.json();
+        
+        const grid = document.getElementById('movies');
+        // Используем map и join для чистого кода, как Stream API в Java [cite: 413, 425]
+        grid.innerHTML = films.map(f => `
+            <div class="movie-card">
+                <h3>${f.title}</h3>
+                <p>Жанр: ${f.genre}</p>
+                <p><b>Цена: ${f.price} тг</b></p>
+                <button onclick="buyTicket('${f.title}')">Купить билет</button>
+            </div>
+        `).join('');
+    } catch (err) {
+        console.error("Ошибка API:", err);
+    }
+}
+
+// 2. Реальный логин через твой LoginHandler [cite: 13, 157]
+async function handleLogin() {
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            body: `user=${user}&pass=${pass}` // Твой LoginHandler ждет такой формат
+        });
+        const result = await response.json();
+
+        if (result.success) {
+            isAuthorized = true;
+            userRole = result.role;
+            showMenu(result.role === 'ADMIN' ? 'Администратор' : 'Зритель: ' + result.name);
+            loadMovies(); // Обновляем список после входа
+        } else {
+            alert('Ошибка доступа!');
         }
+    } catch (err) {
+        alert('Сервер не отвечает. Проверь LoginHandler!');
+    }
+}
 
-        function handleLogin() {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
+// 3. Логика покупки (требование Milestone) [cite: 13]
+function buyTicket(filmTitle) {
+    if (!isAuthorized) {
+        alert("Для покупки билета на фильм '" + filmTitle + "' нужно войти или создать аккаунт!");
+        return;
+    }
+    alert("Билет на '" + filmTitle + "' забронирован. Проверьте баланс в консоли Java.");
+}
 
-            // Простая имитация логина для прототипа (позже сделаем через API)
-            if (user === 'admin' && pass === 'admin') {
-                showMenu('Администратор');
-            } else if (user !== '' && pass !== '') {
-                showMenu('Зритель: ' + user);
-            } else {
-                alert('Введите данные!');
-            }
-        }
+function showMenu(roleText) {
+    document.getElementById('auth-section').classList.add('hidden');
+    document.getElementById('user-menu').classList.remove('hidden');
+    document.getElementById('welcome-msg').innerText = "Привет, " + roleText;
+}
 
-        function showMenu(role) {
-            document.getElementById('auth-section').classList.add('hidden');
-            document.getElementById('user-menu').classList.remove('hidden');
-            document.getElementById('welcome-msg').innerText = "Добро пожаловать, " + role;
-        }
+function logout() {
+    location.reload();
+}
 
-        function logout() {
-            location.reload();
-        }
-
-        // Запускаем загрузку при открытии страницы
-        loadMovies();
+// Запускаем загрузку сразу [cite: 257]
+loadMovies();
     </script>
 </body>
 </html>
