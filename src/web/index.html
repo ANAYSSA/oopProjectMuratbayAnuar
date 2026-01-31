@@ -29,7 +29,7 @@
 <body>
 
     <div id="loginScreen" class="card">
-        <h2 style="text-align:center">CINEMA LOGIN</h2>
+        <h2 style="text-align:center">LOGIN</h2>
         <input type="text" id="loginUser" placeholder="Логин">
         <input type="password" id="loginPass" placeholder="Пароль">
         <button style="background:var(--primary); color:white" onclick="login()">Войти</button>
@@ -131,20 +131,19 @@
         }
 
         function renderTable(films) {
-            const tbody = document.getElementById('filmTableBody');
-            if (films.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Фильмов не найдено</td></tr>';
-                return;
-            }
-            tbody.innerHTML = films.map(f => `
-                <tr>
-                    <td><b>${f.title}</b></td>
-                    <td>${f.price} ₸</td>
-                    <td><span class="badge" style="background:#555">Active</span></td>
-                    ${currentRole === 'ADMIN' ? `<td><button class="btn-del" style="padding:5px" onclick="deleteFilmDirect('${f.title}')">🗑</button></td>` : ''}
-                </tr>
-            `).join('');
-        }
+    const tbody = document.getElementById('filmTableBody');
+    if (films.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Фильмов не найдено</td></tr>';
+        return;
+    }
+    tbody.innerHTML = films.map(f => `
+        <tr>
+            <td><b>${f.title}</b></td>
+            <td>${f.price} ₸</td>
+            <td><span class="badge" style="background:#555">${f.genre}</span></td> ${currentRole === 'ADMIN' ? `<td><button class="btn-del" style="padding:5px" onclick="deleteFilmDirect('${f.title}')">🗑</button></td>` : ''}
+        </tr>
+    `).join('');
+}
 
         function updateDropdowns() {
             const upd = document.getElementById('updFilmList');

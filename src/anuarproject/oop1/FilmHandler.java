@@ -60,13 +60,11 @@ public class FilmHandler implements HttpHandler {
             Film f = films.get(i);
             sb.append("{");
             sb.append("\"title\":\"").append(f.getTitle()).append("\",");
-            sb.append("\"price\":").append(f.getPrice());
+            sb.append("\"price\":").append(f.getPrice()).append(","); // Добавили запятую
+            sb.append("\"genre\":\"").append(f.getGenre().name()).append("\""); // Добавили жанр
             sb.append("}");
-            if (i < films.size() - 1) {
-                sb.append(",");
-            }
+            if (i < films.size() - 1) sb.append(",");
         }
-        sb.append("]");
-        return sb.toString();
+        return sb.append("]").toString();
     }
 }
