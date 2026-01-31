@@ -26,12 +26,13 @@ public class LoginHandler implements HttpHandler {
             User user = DBManager.getInstance().login(username, password);
 
             if (user != null) {
-
                 String role = (user instanceof Admin) ? "ADMIN" : "VIEWER";
-                String json = String.format("{\"success\":true,\"role\":\"%s\",\"name\":\"%s\"}", role, username);
+                double balance = user.getBalance();
+                String json = String.format(java.util.Locale.US,
+                        "{\"success\":true,\"role\":\"%s\",\"name\":\"%s\",\"balance\":%.2f}",
+                        role, username, balance);
+
                 sendJsonResponse(exchange, json, 200);
-            } else {
-                sendJsonResponse(exchange, "{\"success\":false}", 401);
             }
         } catch (Exception e) {
             sendJsonResponse(exchange, "{\"error\":\"Server error\"}", 500);

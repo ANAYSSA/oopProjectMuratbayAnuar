@@ -1,208 +1,708 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ANUAR CINEMA - Professional Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANUAR CINEMA | Kostanay</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&family=Oswald:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <style>
-        :root { --primary: #ff6d00; --dark: #1a1a1a; --danger: #d32f2f; --success: #388e3c; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 450px; margin: auto; }
-        .main-content { max-width: 1200px; width: 100%; display: none; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        /* ==================== 1. CORE CONFIGURATION ==================== */
+        :root {
+            /* Palette */
+            --primary: #ff6b00;       
+            --primary-glow: rgba(255, 107, 0, 0.5);
+            --secondary: #00d2ff;     
+            --bg-deep: #050505;       
+            --bg-card: #0f0f11;       
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(20, 20, 22, 0.85);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            
+            /* Text */
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            
+            /* States */
+            --danger: #ff2e63;
+            --success: #00e676;
+            
+            /* Spacing */
+            --radius-sm: 8px;
+            --radius-lg: 20px;
+        }
+
+        /* ==================== 2. GLOBAL RESET ==================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        .admin-panel { background: #fff8e1; border: 2px solid #ffe082; padding: 20px; border-radius: 10px; margin-bottom: 25px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            /* Subtle dark gradient background */
+            background-image: radial-gradient(circle at 50% 0%, #1a1a20 0%, #050505 100%);
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        button { cursor: pointer; font-family: 'Montserrat', sans-serif; outline: none; }
+        input, select { font-family: 'Montserrat', sans-serif; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* ==================== 3. ANIMATIONS & EFFECTS ==================== */
         
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        button { padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; width: 100%; }
-        .btn-add { background: var(--success); color: white; }
-        .btn-upd { background: #0288d1; color: white; }
+        /* Snow Effect */
+        .snow-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { transform: translateY(105vh); }
+        }
+
+        /* Fade In Up Animation */
+        .animate-up { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(30px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* ==================== 4. NAVIGATION ==================== */
+        .top-bar {
+            background: #000;
+            padding: 10px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            z-index: 100; position: relative;
+            letter-spacing: 1px;
+        }
+        .location-info i { color: var(--primary); margin-right: 8px; }
+        .socials i { margin-left: 20px; transition: 0.3s; cursor: pointer; }
+        .socials i:hover { color: var(--primary); transform: scale(1.2); }
+
+        .navbar {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
+            border-bottom: var(--glass-border);
+        }
+
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700; font-size: 28px;
+            text-transform: uppercase; letter-spacing: 2px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .logo span { color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
+
+        .nav-links { display: flex; gap: 35px; }
+        .nav-links li a {
+            font-size: 12px; font-weight: 600; text-transform: uppercase; color: #ccc;
+            position: relative; padding-bottom: 5px;
+        }
+        .nav-links li a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--primary); transition: 0.3s ease;
+        }
+        .nav-links li a:hover { color: white; }
+        .nav-links li a:hover::after { width: 100%; }
+
+        .btn-login {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700; font-size: 12px; text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .btn-login:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        /* ==================== 5. HERO SECTION ==================== */
+        .hero {
+            height: 70vh;
+            min-height: 500px;
+            background: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2000&auto=format&fit=crop') no-repeat center/cover;
+            position: relative;
+            display: flex; align-items: center; padding: 0 5%;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, #050505 0%, rgba(5,5,5,0.8) 50%, transparent 100%);
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 650px; }
+        
+        .tagline { color: var(--primary); font-weight: 700; letter-spacing: 4px; font-size: 12px; text-transform: uppercase; margin-bottom: 15px; display: block; }
+        .hero h1 { font-family: 'Oswald', sans-serif; font-size: 64px; line-height: 1.1; margin-bottom: 25px; text-transform: uppercase; color: white; }
+        .hero p { font-size: 15px; color: #aaa; margin-bottom: 35px; line-height: 1.6; max-width: 500px; }
+
+        .btn-cta {
+            background: var(--primary); color: white; border: none;
+            padding: 15px 40px; border-radius: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%); /* Cyberpunk shape */
+            transition: 0.3s;
+        }
+        .btn-cta:hover { transform: translateX(5px); box-shadow: 0 0 25px var(--primary-glow); }
+
+        /* ==================== 6. SECTIONS & GRID ==================== */
+        .section-header {
+            padding: 60px 5% 30px;
+            display: flex; align-items: flex-end; justify-content: space-between;
+            position: relative; z-index: 10;
+        }
+        .title-box h2 { font-family: 'Oswald'; font-size: 32px; text-transform: uppercase; margin-bottom: 5px; }
+        .title-box .line { width: 50px; height: 4px; background: var(--primary); }
+
+        .movies-container { padding: 0 5% 80px; position: relative; z-index: 10; }
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 30px;
+        }
+
+        /* Movie Card */
+        .movie-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            position: relative;
+            transition: 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .movie-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .poster-box { height: 360px; overflow: hidden; position: relative; }
+        .poster-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .movie-card:hover .poster-img { transform: scale(1.1); opacity: 0.6; }
+
+        .card-details {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,1), transparent);
+            transform: translateY(20px); transition: 0.4s;
+        }
+        .movie-card:hover .card-details { transform: translateY(0); }
+
+        .card-details h3 { font-family: 'Oswald'; font-size: 18px; margin-bottom: 5px; color: white; }
+        .card-details p { font-size: 12px; color: var(--primary); font-weight: 700; margin-bottom: 10px; }
+        
+        .price-badge {
+            position: absolute; top: 10px; right: 10px;
+            background: var(--primary); color: white;
+            padding: 5px 10px; border-radius: 4px; font-weight: 800; font-size: 12px;
+        }
+
+        /* ==================== 7. PRIVATE PORTAL & ADMIN ==================== */
+        .portal-wrapper { display: none; padding-top: 40px; }
+
+        .user-header {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            margin: 0 5% 40px; padding: 25px;
+            border-radius: var(--radius-lg);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .user-meta h2 { font-size: 20px; color: white; }
+        .user-meta span { color: var(--text-muted); font-size: 12px; }
+        .balance-box { text-align: right; }
+        .balance-val { font-size: 24px; font-weight: 700; color: var(--success); }
+
+        /* --- ADMIN DASHBOARD (IMPROVED) --- */
+        .admin-dashboard {
+            margin: 0 5% 60px;
+            padding: 40px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: var(--radius-lg);
+            display: none; /* Hidden by default */
+        }
+        
+        .admin-head { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #333; }
+        .admin-head i { font-size: 24px; color: var(--primary); }
+        .admin-head h3 { font-family: 'Oswald'; font-size: 24px; text-transform: uppercase; color: white; }
+
+        .control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        .control-panel {
+            background: #1a1a1d;
+            padding: 25px;
+            border: 1px solid #333;
+            border-radius: 4px; /* Square-ish */
+        }
+        .control-panel h4 { color: #777; font-size: 12px; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+
+        .input-dark {
+            width: 100%; padding: 12px; background: #0f0f11; border: 1px solid #333; color: white;
+            margin-bottom: 10px; font-size: 13px; outline: none; transition: 0.3s;
+        }
+        .input-dark:focus { border-color: var(--primary); }
+
+        /* SQUARE ADMIN BUTTONS */
+        .btn-admin {
+            width: 100%; padding: 15px;
+            border: none; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
+            margin-top: 10px; transition: 0.2s;
+            border-radius: 2px; /* Square corners */
+        }
+        .btn-add { background: var(--success); color: #050505; }
+        .btn-add:hover { background: #00c853; transform: scale(0.98); }
+
+        .btn-upd { background: var(--secondary); color: #050505; }
+        .btn-upd:hover { background: #00b0ff; transform: scale(0.98); }
+
         .btn-del { background: var(--danger); color: white; }
+        .btn-del:hover { background: #d32f2f; transform: scale(0.98); }
+
+        /* ==================== 8. MODALS ==================== */
+        .modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            z-index: 2000; display: none; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-box {
+            background: #151518; border: 1px solid #333;
+            padding: 50px; width: 100%; max-width: 420px;
+            position: relative; animation: slideUp 0.4s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        @keyframes slideUp { from {opacity:0; transform:translateY(30px)} to {opacity:1; transform:translateY(0)} }
+
+        .close-icon { position: absolute; top: 20px; right: 20px; cursor: pointer; color: #555; font-size: 20px; }
+        .close-icon:hover { color: white; }
+
+        .modal-head { text-align: center; margin-bottom: 30px; }
+        .modal-head h2 { font-family: 'Oswald'; font-size: 28px; color: white; }
         
-        .search-bar { width: 100%; padding: 15px; font-size: 18px; border: 2px solid var(--primary); border-radius: 10px; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: var(--dark); color: white; position: sticky; top: 0; }
-        tr:hover { background: #f9f9f9; }
-        .badge { padding: 5px 10px; border-radius: 5px; font-size: 12px; font-weight: bold; color: white; }
+        .btn-submit {
+            width: 100%; padding: 15px; background: var(--primary); color: white; border: none; font-weight: 700;
+            text-transform: uppercase; margin-top: 20px; transition: 0.3s;
+        }
+        .btn-submit:hover { background: var(--primary-hover); box-shadow: 0 5px 20px rgba(255, 107, 0, 0.3); }
+
+        /* Toast */
+        #toast {
+            position: fixed; top: 30px; right: 30px;
+            background: #1a1a1d; color: white; border-left: 4px solid var(--primary);
+            padding: 15px 30px; border-radius: 4px;
+            transform: translateX(150%); transition: 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 3000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 13px;
+        }
+        #toast.active { transform: translateX(0); }
+
     </style>
 </head>
 <body>
 
-    <div id="loginScreen" class="card">
-        <h2 style="text-align:center">LOGIN</h2>
-        <input type="text" id="loginUser" placeholder="Логин">
-        <input type="password" id="loginPass" placeholder="Пароль">
-        <button style="background:var(--primary); color:white" onclick="login()">Войти</button>
-        <p style="text-align:center">Нет аккаунта? <a href="#" onclick="showScreen('regScreen')">Зарегистрироваться</a></p>
-    </div>
+    <div class="snow-container" id="snowContainer"></div>
 
-    <div id="regScreen" class="card" style="display: none;">
-        <h2 style="text-align:center">REGISTRATION</h2>
-        <input type="text" id="regUser" placeholder="Логин">
-        <input type="password" id="regPass" placeholder="Пароль">
-        <input type="text" id="regName" placeholder="ФИО">
-        <input type="number" id="regBalance" placeholder="Баланс ₸">
-        <button style="background:var(--primary); color:white" onclick="register()">Создать</button>
-        <button style="background:none; color:var(--primary); border:1px solid var(--primary); margin-top:10px" onclick="showScreen('loginScreen')">Назад</button>
-    </div>
+    <div id="toast">Action Completed Successfully</div>
 
-    <div id="contentScreen" class="main-content">
-        <div style="display:flex; justify-content:space-between; align-items:center">
-            <h1>ANUAR <span id="userBadge" class="badge"></span></h1>
-            <button style="width:auto; background:#666; color:white" onclick="location.reload()">Выход</button>
+    <div id="publicPage">
+        <div class="top-bar">
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i> <span>KOSTANAY</span>
+            </div>
+            <div class="socials">
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
         </div>
 
-        <div id="adminPanel" class="admin-panel" style="display:none">
-            <h3 style="margin-top:0">Панель управления (Admin)</h3>
-            <div class="grid-3">
-                <div>
-                    <p><b>➕ Новый фильм</b></p>
-                    <input type="text" id="addTitle" placeholder="Название">
-                    <input type="number" id="addPrice" placeholder="Цена ₸">
-                    <select id="addGenre">
-                        <option value="ACTION">Action</option><option value="COMEDY">Comedy</option>
-                        <option value="DRAMA">Drama</option><option value="HORROR">Horror</option>
-                        <option value="FANTASY">Fantasy</option><option value="ANIMATION">Animation</option>
-                        <option value="THRILLER">Thriller</option><option value="ROMANCE">Romance</option>
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-film" style="color:var(--primary)"></i> ANUAR <span>CINEMA</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">Schedule</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="#">Cinema</a></li>
+            </ul>
+            <button class="btn-login" onclick="openModal('loginModal')">
+                Login / Join
+            </button>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-content animate-up">
+                <span class="tagline">Kostanay's #1 Cinema</span>
+                <h1>Experience The<br>Magic of Movies</h1>
+                <p>Immerse yourself in crystal clear 4K visuals and Dolby Atmos sound. The ultimate cinematic journey begins here.</p>
+                <button class="btn-cta" onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">
+                    Browse Films
+                </button>
+            </div>
+        </section>
+
+        <div class="section-header" id="catalog">
+            <div class="title-box">
+                <h2>Now Showing</h2>
+                <div class="line"></div>
+            </div>
+        </div>
+
+        <div class="movies-container">
+            <div id="publicGrid" class="movie-grid">
+                </div>
+        </div>
+    </div>
+
+    <div id="privatePage" class="portal-wrapper">
+        <nav class="navbar" style="position:relative; margin-bottom:40px; background: transparent; padding:0;">
+            <div class="logo">ANUAR <span>SYSTEM</span></div>
+            <button onclick="logout()" style="background:none; border:none; color:var(--danger); font-weight:700; font-size:12px;">
+                LOGOUT <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </nav>
+
+        <div class="user-header animate-up">
+            <div class="user-meta">
+                <h2 id="dispName">User</h2>
+                <span id="dispRole">VIEWER ACCESS</span>
+            </div>
+            <div class="balance-box">
+                <div style="font-size:10px; color:#666; text-transform:uppercase;">Current Balance</div>
+                <div class="balance-val"><span id="dispBal">0</span> ₸</div>
+            </div>
+        </div>
+
+        <div id="adminPanel" class="admin-dashboard animate-up">
+            <div class="admin-head">
+                <i class="fas fa-sliders-h"></i>
+                <h3>Management Console</h3>
+            </div>
+            
+            <div class="control-grid">
+                <div class="control-panel">
+                    <h4>Add New Movie</h4>
+                    <input type="text" class="input-dark" id="addTitle" placeholder="Movie Title">
+                    <input type="text" class="input-dark" id="addImg" placeholder="Image URL (http://...)">
+                    <input type="number" class="input-dark" id="addPrice" placeholder="Ticket Price (₸)">
+                    <select class="input-dark" id="addGenre">
+                        <option value="ACTION">ACTION</option>
+                        <option value="DRAMA">DRAMA</option>
+                        <option value="COMEDY">COMEDY</option>
+                        <option value="HORROR">HORROR</option>
+                        <option value="FANTASY">FANTASY</option>
                     </select>
-                    <button class="btn-add" onclick="addFilm()">Создать</button>
+                    <button class="btn-admin btn-add" onclick="addFilm()">Add to Database</button>
                 </div>
-                <div>
-                    <p><b>🔄 Обновить цену</b></p>
-                    <select id="updFilmList"><option value="">Выберите фильм...</option></select>
-                    <input type="number" id="updPrice" placeholder="Новая цена ₸">
-                    <button class="btn-upd" onclick="updatePrice()">Применить</button>
+
+                <div class="control-panel">
+                    <h4>Adjust Pricing</h4>
+                    <select class="input-dark" id="updList"></select>
+                    <input type="number" class="input-dark" id="updPrice" placeholder="New Price (₸)">
+                    <button class="btn-admin btn-upd" onclick="updatePrice()">Update Price</button>
                 </div>
-                <div>
-                    <p><b>🗑 Удалить фильм</b></p>
-                    <select id="delFilmList"><option value="">Выберите фильм...</option></select>
-                    <button class="btn-del" onclick="deleteFilmManual()">Удалить навсегда</button>
+
+                <div class="control-panel" style="border-color: rgba(255, 46, 99, 0.2);">
+                    <h4 style="color:var(--danger);">Delete Record</h4>
+                    <select class="input-dark" id="delList"></select>
+                    <div style="height: 52px;"></div> <button class="btn-admin btn-del" onclick="deleteFilm()">Delete Permanently</button>
                 </div>
             </div>
         </div>
 
-        <input type="text" id="search" class="search-bar" placeholder="🔍 Поиск фильма по названию..." onkeyup="filterFilms()">
+        <div class="section-header">
+            <div class="title-box">
+                <h2>All Movies</h2>
+                <div class="line"></div>
+            </div>
+        </div>
 
-        <table>
-            <thead><tr><th>Название</th><th>Цена</th><th>Жанр</th><th id="actionHead" style="display:none">Действие</th></tr></thead>
-            <tbody id="filmTableBody"></tbody>
-        </table>
+        <div class="movies-container">
+            <div id="privateGrid" class="movie-grid"></div>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal-wrap">
+        <div class="modal-box">
+            <i class="fas fa-times close-icon" onclick="closeModal('loginModal')"></i>
+            <div class="modal-head">
+                <h2>Welcome Back</h2>
+                <p style="color:#777; font-size:13px;">Secure Access Terminal</p>
+            </div>
+            <input type="text" class="input-dark" id="loginUser" placeholder="Username">
+            <input type="password" class="input-dark" id="loginPass" placeholder="Password">
+            <button class="btn-submit" onclick="performLogin()">Access System</button>
+            <p style="text-align:center; margin-top:20px; font-size:12px; color:#555; cursor:pointer;" onclick="switchModal('loginModal', 'regModal')">
+                New User? <span style="color:var(--primary)">Register Here</span>
+            </p>
+        </div>
+    </div>
+
+    <div id="regModal" class="modal-wrap">
+        <div class="modal-box">
+            <i class="fas fa-times close-icon" onclick="closeModal('regModal')"></i>
+            <div class="modal-head">
+                <h2>Registration</h2>
+                <p style="color:#777; font-size:13px;">Create a New Identity</p>
+            </div>
+            <input type="text" class="input-dark" id="regUser" placeholder="Create Username">
+            <input type="password" class="input-dark" id="regPass" placeholder="Create Password">
+            <input type="text" class="input-dark" id="regName" placeholder="Full Name">
+            <input type="number" class="input-dark" id="regBalance" placeholder="Initial Deposit (₸)" value="5000">
+            <button class="btn-submit" onclick="performRegister()">Register User</button>
+        </div>
     </div>
 
     <script>
+        // --- 1. SNOW EFFECT SYSTEM ---
+        function initSnow() {
+            const container = document.getElementById('snowContainer');
+            for(let i=0; i<40; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.width = Math.random() * 3 + 1 + 'px';
+                flake.style.height = flake.style.width;
+                flake.style.animationDuration = Math.random() * 5 + 5 + 's';
+                flake.style.opacity = Math.random() * 0.5 + 0.2;
+                container.appendChild(flake);
+            }
+        }
+        initSnow();
+
+        // --- 2. IMAGE MANAGER (LocalStorage Bridge) ---
+        // Keeps images in browser memory since backend is Java-only
+        const ImgManager = {
+            save: (title, url) => localStorage.setItem('img_' + title.toLowerCase(), url),
+            get: (title) => {
+                const saved = localStorage.getItem('img_' + title.toLowerCase());
+                if(saved) return saved;
+                // Fallbacks for demo presentation
+                const defaults = {
+                    'avatar': 'https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3MzMtYTJmNjg3Nzk5MzRiXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_.jpg',
+                    'it': 'https://upload.wikimedia.org/wikipedia/en/5/5a/It_%282017%29_poster.jpg',
+                    'joker': 'https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg',
+                    'interstellar': 'https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg'
+                };
+                return defaults[title.toLowerCase()] || 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=600&auto=format&fit=crop';
+            },
+            del: (title) => localStorage.removeItem('img_' + title.toLowerCase())
+        };
+
+        // --- 3. APP STATE ---
         let allFilms = [];
-        let currentRole = '';
+        let currentUser = null;
 
-        function showScreen(id) {
-            ['loginScreen', 'regScreen', 'contentScreen'].forEach(s => document.getElementById(s).style.display = 'none');
-            document.getElementById(id).style.display = (id === 'contentScreen' ? 'block' : 'block');
-        }
-
-        async function login() {
-            const user = document.getElementById('loginUser').value;
-            const pass = document.getElementById('loginPass').value;
-            const res = await fetch('/api/login', { method: 'POST', body: `user=${user}&pass=${pass}` });
-            const data = await res.json();
-
-            if(data.success) {
-                currentRole = data.role;
-                const b = document.getElementById('userBadge');
-                b.innerText = data.role;
-                b.style.background = (data.role === 'ADMIN' ? 'var(--danger)' : 'var(--success)');
-                if(data.role === 'ADMIN') {
-                    document.getElementById('adminPanel').style.display = 'block';
-                    document.getElementById('actionHead').style.display = 'table-cell';
-                }
-                showScreen('contentScreen');
-                loadFilms();
-            } else alert("❌ Ошибка входа! Проверьте логин и пароль.");
-        }
-
-        async function loadFilms() {
+        // --- 4. API FUNCTIONS ---
+        async function fetchFilms() {
             try {
                 const res = await fetch('/api/films');
                 allFilms = await res.json();
-                renderTable(allFilms);
+                renderMovies();
                 updateDropdowns();
-            } catch (e) {
-                console.error(e);
-                alert("⚠️ Не удалось загрузить список фильмов.");
-            }
+            } catch(e) { console.error("API Error:", e); }
         }
 
-        function renderTable(films) {
-    const tbody = document.getElementById('filmTableBody');
-    if (films.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Фильмов не найдено</td></tr>';
-        return;
-    }
-    tbody.innerHTML = films.map(f => `
-        <tr>
-            <td><b>${f.title}</b></td>
-            <td>${f.price} ₸</td>
-            <td><span class="badge" style="background:#555">${f.genre}</span></td> ${currentRole === 'ADMIN' ? `<td><button class="btn-del" style="padding:5px" onclick="deleteFilmDirect('${f.title}')">🗑</button></td>` : ''}
-        </tr>
-    `).join('');
-}
+        // --- 5. RENDER LOGIC ---
+        function renderMovies() {
+            const pubGrid = document.getElementById('publicGrid');
+            const privGrid = document.getElementById('privateGrid');
+            
+            const html = allFilms.map(f => createCardHTML(f)).join('');
+            
+            pubGrid.innerHTML = html;
+            privGrid.innerHTML = html;
+        }
+
+        function createCardHTML(film) {
+            const img = ImgManager.get(film.title);
+            return `
+            <div class="movie-card animate-up">
+                <div class="poster-box">
+                    <img src="${img}" class="poster-img">
+                    <div class="price-badge">${film.price} ₸</div>
+                    <div class="card-details">
+                        <h3>${film.title}</h3>
+                        <p>${film.genre}</p>
+                        <button class="btn-login" style="width:100%; font-size:10px; border-width:1px;" onclick="viewDetails('${film.title}')">
+                            VIEW DETAILS
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+        }
 
         function updateDropdowns() {
-            const upd = document.getElementById('updFilmList');
-            const del = document.getElementById('delFilmList');
-            const options = '<option value="">Выберите фильм...</option>' + 
-                            allFilms.map(f => `<option value="${f.title}">${f.title}</option>`).join('');
-            upd.innerHTML = options;
-            del.innerHTML = options;
+            const opts = '<option value="">Select Movie...</option>' + 
+                         allFilms.map(f => `<option value="${f.title}">${f.title}</option>`).join('');
+            document.getElementById('updList').innerHTML = opts;
+            document.getElementById('delList').innerHTML = opts;
         }
 
-        function filterFilms() {
-            const text = document.getElementById('search').value.toLowerCase();
-            const filtered = allFilms.filter(f => f.title.toLowerCase().includes(text));
-            renderTable(filtered);
-        }
+        // --- 6. AUTHENTICATION (Fixed Syntax) ---
+        async function performLogin() {
+            const u = document.getElementById('loginUser').value;
+            const p = document.getElementById('loginPass').value;
 
-        async function addFilm() {
-            const t = document.getElementById('addTitle').value;
-            const p = document.getElementById('addPrice').value;
-            const g = document.getElementById('addGenre').value;
-            if(!t || !p) return alert("Заполните все поля!");
+            try {
+                const res = await fetch('/api/login', { method: 'POST', body: `user=${u}&pass=${p}` });
+                
+                if (!res.ok) {
+                    showToast("Login Failed: Server Error");
+                    return;
+                }
 
-            const res = await fetch('/api/films', { method: 'POST', body: `title=${t}&price=${p}&genre=${g}` });
-            if(res.ok) { alert("✅ Фильм '" + t + "' успешно добавлен!"); loadFilms(); }
-        }
+                const data = await res.json();
 
-        async function updatePrice() {
-            const t = document.getElementById('updFilmList').value;
-            const p = document.getElementById('updPrice').value;
-            if(!t || !p) return alert("Выберите фильм и укажите цену!");
+                if(data.success) {
+                    // Update State
+                    currentUser = { name: data.name, role: data.role, balance: data.balance || 0 };
+                    
+                    // Update UI
+                    document.getElementById('dispName').innerText = currentUser.name;
+                    document.getElementById('dispRole').innerText = currentUser.role;
+                    document.getElementById('dispBal').innerText = currentUser.balance;
 
-            const res = await fetch('/api/films', { method: 'PUT', body: `title=${t}&price=${p}` });
-            if(res.ok) { alert("🔄 Цена для '" + t + "' обновлена до " + p + " ₸"); loadFilms(); }
-        }
+                    // Toggle Admin Panel
+                    const adminPanel = document.getElementById('adminPanel');
+                    if(currentUser.role === 'ADMIN') adminPanel.style.display = 'block';
+                    else adminPanel.style.display = 'none';
 
-        async function deleteFilmManual() {
-            const t = document.getElementById('delFilmList').value;
-            if(!t) return alert("Выберите фильм для удаления!");
-            if(confirm("Вы уверены, что хотите удалить фильм '" + t + "'?")) {
-                const res = await fetch(`/api/films?title=${t}`, { method: 'DELETE' });
-                if(res.ok) { alert("🗑 Фильм '" + t + "' удален из базы."); loadFilms(); }
+                    // Switch Screens
+                    closeModal('loginModal');
+                    document.getElementById('publicPage').style.display = 'none';
+                    document.getElementById('privatePage').style.display = 'block';
+                    
+                    showToast("Access Granted");
+                    window.scrollTo(0,0);
+                } else {
+                    showToast("Invalid Credentials");
+                }
+            } catch(e) {
+                console.error(e);
+                showToast("Connection Error");
             }
         }
 
-        async function deleteFilmDirect(title) {
-            if(confirm("Удалить '" + title + "'?")) {
-                const res = await fetch(`/api/films?title=${title}`, { method: 'DELETE' });
-                if(res.ok) { alert("🗑 Удалено."); loadFilms(); }
-            }
-        }
-
-        async function register() {
+        async function performRegister() {
             const u = document.getElementById('regUser').value;
             const p = document.getElementById('regPass').value;
             const n = document.getElementById('regName').value;
             const b = document.getElementById('regBalance').value;
-            const res = await fetch('/api/register', { method: 'POST', body: `user=${u}&pass=${p}&name=${n}&balance=${b}` });
-            if(res.ok) { alert("🎉 Аккаунт создан! Теперь войдите."); showScreen('loginScreen'); }
+
+            try {
+                const res = await fetch('/api/register', { method: 'POST', body: `user=${u}&pass=${p}&name=${n}&balance=${b}` });
+                if(res.ok) {
+                    showToast("Registration Successful");
+                    switchModal('regModal', 'loginModal');
+                } else {
+                    showToast("Registration Failed");
+                }
+            } catch(e) { showToast("Error"); }
         }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('privatePage').style.display = 'none';
+            document.getElementById('publicPage').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        // --- 7. ADMIN ACTIONS ---
+        async function addFilm() {
+            const t = document.getElementById('addTitle').value;
+            const img = document.getElementById('addImg').value;
+            const p = document.getElementById('addPrice').value;
+            const g = document.getElementById('addGenre').value;
+
+            if(!t || !p) return showToast("Missing Info");
+
+            const res = await fetch('/api/films', { method: 'POST', body: `title=${t}&price=${p}&genre=${g}` });
+            if(res.ok) {
+                if(img) ImgManager.save(t, img);
+                fetchFilms();
+                showToast("Movie Added");
+                // Clear inputs
+                document.getElementById('addTitle').value = '';
+                document.getElementById('addImg').value = '';
+            }
+        }
+
+        async function updatePrice() {
+            const t = document.getElementById('updList').value;
+            const p = document.getElementById('updPrice').value;
+            
+            const res = await fetch('/api/films', { method: 'PUT', body: `title=${t}&price=${p}` });
+            if(res.ok) {
+                fetchFilms();
+                showToast("Price Updated");
+            }
+        }
+
+        async function deleteFilm() {
+            const t = document.getElementById('delList').value;
+            if(!t) return;
+            
+            if(confirm('Confirm Delete?')) {
+                const res = await fetch(`/api/films?title=${t}`, { method: 'DELETE' });
+                if(res.ok) {
+                    ImgManager.del(t);
+                    fetchFilms();
+                    showToast("Record Deleted");
+                }
+            }
+        }
+
+        // --- 8. UI HELPERS ---
+        function viewDetails(title) {
+            // Just a placeholder for interaction
+            if(!currentUser) {
+                showToast("Please Login First");
+                openModal('loginModal');
+            } else {
+                showToast("Opening Details for " + title);
+            }
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.add('active');
+            setTimeout(() => t.classList.remove('active'), 3000);
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function switchModal(a, b) { closeModal(a); openModal(b); }
+
+        // --- INIT ---
+        fetchFilms();
+
     </script>
 </body>
 </html>
