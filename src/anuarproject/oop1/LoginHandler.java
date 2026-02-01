@@ -13,15 +13,10 @@ public class LoginHandler implements HttpHandler {
             exchange.sendResponseHeaders(405, -1);
             return;
         }
-
         try {
-
             String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
-
-
             String username = body.contains("user=") ? body.split("user=")[1].split("&")[0] : "";
             String password = body.contains("pass=") ? body.split("pass=")[1].split("&")[0] : "";
-
 
             User user = DBManager.getInstance().login(username, password);
 
@@ -38,8 +33,6 @@ public class LoginHandler implements HttpHandler {
             sendJsonResponse(exchange, "{\"error\":\"Server error\"}", 500);
         }
     }
-
-
     private void sendJsonResponse(HttpExchange exchange, String json, int status) throws IOException {
         byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().set("Content-Type", "application/json");
